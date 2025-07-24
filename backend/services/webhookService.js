@@ -2,7 +2,7 @@ const notificationService = require("../tarefas/services/notificationService");
 const formatarTelefone = require("../utils/formatarTelefone");
 require("dotenv").config();
 
-const API_BACKEND = "https://backend-isolado-production.up.railway.app";
+const API_BACKEND = `${process.env.API_BASE}`;
 
 async function processarEvento(event, payment, transfer) {
   if (!event) {
@@ -154,7 +154,7 @@ async function atualizarStatusPagamento(status, paymentId) {
 async function buscarInquilinoData(customerId) {
   try {
     const response = await fetch(
-      `https://backend-isolado-production.up.railway.app/inquilinos/get-inquilino/por-customer-id/${customerId}`
+      `${process.env.API_BASE}/inquilinos/get-inquilino/por-customer-id/${customerId}`
     );
     if (!response.ok) throw new Error(`Erro ao buscar dados do inquilino`);
 
@@ -168,7 +168,7 @@ async function buscarInquilinoData(customerId) {
 async function buscarLocadorPorInquilino(inquilinoId) {
   try {
     const response = await fetch(
-      `https://backend-isolado-production.up.railway.app/user/locador/por-inquilino/${inquilinoId}`
+      `${process.env.API_BASE}/user/locador/por-inquilino/${inquilinoId}`
     );
     if (!response.ok) throw new Error(`Erro ao buscar dados do locador`);
 

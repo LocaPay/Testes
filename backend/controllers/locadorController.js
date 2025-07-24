@@ -113,7 +113,7 @@ exports.registrar = async (req, res) => {
       console.log("🔗 Configurando webhook para subconta...");
       const webhookResponse = await asaasService.configurarWebhookSubconta(
         subconta.apiKey,
-        "https://backend-isolado-production.up.railway.app/asaas-events",
+        `${process.env.API_BASE}/asaas-events`,
         email
       );
 
