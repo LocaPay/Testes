@@ -1,4 +1,4 @@
-const API_BASE = "https://backend-isolado-production.up.railway.app";
+const API_BASE = "https://backend-isolado-copy-production.up.railway.app";
 
 // ======================= TOKEN =======================
 

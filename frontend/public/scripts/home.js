@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       try {
         const res = await fetch(
-          "https://backend-isolado-production.up.railway.app/user/locadores",
+          "https://backend-isolado-copy-production.up.railway.app/user/locadores",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -265,7 +265,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       try {
         const response = await fetch(
-          "https://backend-isolado-production.up.railway.app/user/login",
+          "https://backend-isolado-copy-production.up.railway.app/user/login",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
