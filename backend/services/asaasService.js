@@ -67,7 +67,7 @@ const transferirPix = async ({ valor, chave_pix, tipoChavePix, saque_id }) => {
       {
         headers: {
           "Content-Type": "application/json",
-          access_token: process.env.ASAAS_API_KEY,
+          access_token: process.env.ASAAS_API_KEY_PJ,
         },
       }
     );
@@ -107,7 +107,7 @@ const criarSubconta = async (locador) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        access_token: `${process.env.ASAAS_API_KEY}`,
+        access_token: `${process.env.ASAAS_API_KEY_PJ}`,
       },
       body: JSON.stringify(payload),
     });
