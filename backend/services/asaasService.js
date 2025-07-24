@@ -69,11 +69,13 @@ const criarClienteAsaas = async (locador) => {
 };
 
 const criarClienteAsaasSubConta = async (inquilino, locador_api_key) => {
+  console.log(inquilino)
   const payload = {
-    name: inquilino.nome,
-    cpfCnpj: inquilino.cpf_cnpj,
-    mobilePhone: inquilino.telefone,
+    name: inquilino.name,
+    cpfCnpj: inquilino.cpfCnpj,
+    mobilePhone: inquilino.phone,
   };
+  console.log(payload)
   try {
     const response = await axios.post(`${BASE_URL}/customers`, payload, {
       headers: {
