@@ -1,6 +1,7 @@
 const db = require("../database/dbconnect");
 asaasService = require("./asaasService");
 const notificationService = require("../tarefas/services/notificationService");
+const { criarClienteAsaasSubConta } = require("./asaasService");
 
 // ------------------ SERVICES GET ------------------
 
@@ -92,10 +93,10 @@ const criarInquilino = async (name, phone, cpf_cnpj, locador_id, locador_api_key
       [name, phone, cpf_cnpj, locador_id]
     );
 
-    const id_asaas = await asaasService.criarClienteAsaas({
+    const id_asaas = await asaasService.criarClienteAsaasSubConta({
       name,
-      phone,
       cpfCnpj: cpf_cnpj,
+      phone,
     }, locador_api_key);
 
     await connection.query("UPDATE inquilinos SET id_asaas = ? WHERE id = ?", [

@@ -68,6 +68,27 @@ const criarClienteAsaas = async (locador) => {
   }
 };
 
+const criarClienteAsaasSubConta = async (inquilino, locador_api_key) => {
+  const payload = {
+    name: inquilino.nome,
+    cpfCnpj: inquilino.cpf_cnpj,
+    mobilePhone: inquilino.telefone,
+  };
+  try {
+    const response = await axios.post(`${BASE_URL}/customers`, payload, {
+      headers: {
+        "Content-Type": "application/json",
+        access_token: locador_api_key,
+      },
+    });
+
+    return response.data.id;
+  } catch (err) {
+    console.error("Erro ao criar cliente:", err.response?.data || err.message);
+    throw new Error(err.response?.data?.message || "Erro ao criar cliente");
+  }
+};
+
 const transferirPix = async ({ valor, chave_pix, tipoChavePix, saque_id }) => {
   try {
     const response = await axios.post(
@@ -197,6 +218,7 @@ const configurarWebhookSubconta = async (
 module.exports = {
   gerarPagamentoPix,
   criarClienteAsaas,
+  criarClienteAsaasSubConta,
   transferirPix,
   criarSubconta,
   configurarWebhookSubconta,
