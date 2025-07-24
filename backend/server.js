@@ -19,7 +19,7 @@ app.use(
       "https://locapay-copy-production.up.railway.app/",
     ],
     methods: ["GET", "POST", "PUT"],
-    credentials: true,
+    credentials: false,
   })
 );
 
