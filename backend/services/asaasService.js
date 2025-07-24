@@ -4,8 +4,12 @@ require("dotenv").config();
 const BASE_URL_SANDBOX = "https://sandbox.asaas.com/api/v3";
 const BASE_URL = "https://www.asaas.com/api/v3";
 
-const gerarPagamentoPix = async (customerId, value, dueDate, locador_api_key) => {
-
+const gerarPagamentoPix = async (
+  customerId,
+  value,
+  dueDate,
+  locador_api_key
+) => {
   try {
     const response = await axios.post(
       `${BASE_URL}/payments`,
@@ -33,26 +37,36 @@ const gerarPagamentoPix = async (customerId, value, dueDate, locador_api_key) =>
   }
 };
 
-
-const criarClienteAsaas = async (clienteData) => {
+const criarClienteAsaas = async (locador) => {
+  const payload = {
+    name: locador.nome,
+    birthDate: locador.dataNascimento,
+    email: locador.email,
+    cpfCnpj: locador.cpf_cnpj,
+    mobilePhone: locador.telefone,
+    incomeValue: locador.rendaMensal,
+    address: locador.rua,
+    addressNumber: locador.numeroEndereco,
+    complement: locador.complemento || "",
+    province: locador.bairro,
+    postalCode: locador.cep,
+    city: locador.cidade,
+    state: locador.estado,
+  };
   try {
-    const response = await axios.post(
-      `${BASE_URL}/customers`,
-      clienteData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          access_token: process.env.ASAAS_API_KEY_PJ,
-        },
-      }
-    );
+    const response = await axios.post(`${BASE_URL}/customers`, {
+      headers: {
+        "Content-Type": "application/json",
+        access_token: process.env.ASAAS_API_KEY_PJ,
+      },
+      body: JSON.stringify(payload),
+    });
     return response.data.id;
   } catch (err) {
     console.error("Erro ao criar cliente:", err.response?.data || err.message);
     throw new Error(err.response?.data?.message || "Erro ao criar cliente");
   }
 };
-
 
 const transferirPix = async ({ valor, chave_pix, tipoChavePix, saque_id }) => {
   try {
@@ -84,7 +98,6 @@ const transferirPix = async ({ valor, chave_pix, tipoChavePix, saque_id }) => {
   }
 };
 
-
 const criarSubconta = async (locador) => {
   const payload = {
     name: locador.nome,
@@ -99,7 +112,7 @@ const criarSubconta = async (locador) => {
     province: locador.bairro,
     postalCode: locador.cep,
     city: locador.cidade,
-    state: locador.estado
+    state: locador.estado,
   };
 
   try {
@@ -115,7 +128,9 @@ const criarSubconta = async (locador) => {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.errors?.[0]?.description || "Erro ao criar subconta no Asaas");
+      throw new Error(
+        data.errors?.[0]?.description || "Erro ao criar subconta no Asaas"
+      );
     }
 
     return {
@@ -123,7 +138,7 @@ const criarSubconta = async (locador) => {
       id: data.id,
       apiKey: data.apiKey,
       status: data.status,
-      walletId: data.walletId
+      walletId: data.walletId,
     };
   } catch (err) {
     console.error("Erro ao criar subconta no Asaas:", err);
@@ -131,13 +146,17 @@ const criarSubconta = async (locador) => {
   }
 };
 
-const configurarWebhookSubconta = async (apiKeySubconta, urlWebhook, locador_email) => {
+const configurarWebhookSubconta = async (
+  apiKeySubconta,
+  urlWebhook,
+  locador_email
+) => {
   const payload = {
     name: "Webhook Subconta LocaPay",
     url: urlWebhook,
     email: locador_email,
     enabled: true,
-    apiVersion: '3',
+    apiVersion: "3",
     interrupted: false,
     sendType: "SIMULTANEOUSLY",
     events: [
@@ -145,8 +164,8 @@ const configurarWebhookSubconta = async (apiKeySubconta, urlWebhook, locador_ema
       "PAYMENT_RECEIVED",
       "PAYMENT_OVERDUE",
       "TRANSFER_CREATED",
-      "TRANSFER_DONE"
-    ]
+      "TRANSFER_DONE",
+    ],
   };
 
   try {
@@ -154,15 +173,17 @@ const configurarWebhookSubconta = async (apiKeySubconta, urlWebhook, locador_ema
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        access_token: apiKeySubconta
+        access_token: apiKeySubconta,
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     });
 
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.errors?.[0]?.description || "Erro ao configurar webhook");
+      throw new Error(
+        data.errors?.[0]?.description || "Erro ao configurar webhook"
+      );
     }
 
     console.log("Webhook configurado com sucesso para a subconta!");
@@ -173,11 +194,10 @@ const configurarWebhookSubconta = async (apiKeySubconta, urlWebhook, locador_ema
   }
 };
 
-
 module.exports = {
   gerarPagamentoPix,
   criarClienteAsaas,
   transferirPix,
   criarSubconta,
-  configurarWebhookSubconta
+  configurarWebhookSubconta,
 };
