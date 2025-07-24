@@ -54,13 +54,13 @@ const criarClienteAsaas = async (locador) => {
     state: locador.estado,
   };
   try {
-    const response = await axios.post(`${BASE_URL}/customers`, {
+    const response = await axios.post(`${BASE_URL}/customers`, payload, {
       headers: {
         "Content-Type": "application/json",
         access_token: process.env.ASAAS_API_KEY_PJ,
       },
-      body: JSON.stringify(payload),
     });
+
     return response.data.id;
   } catch (err) {
     console.error("Erro ao criar cliente:", err.response?.data || err.message);
