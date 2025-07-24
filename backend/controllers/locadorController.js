@@ -105,40 +105,55 @@ exports.registrar = async (req, res) => {
     });
 
     if (subconta.ok) {
-      console.log("✅ Subconta no Asaas criada com sucesso. Salvando dados...");
-      await locadorService.salvarDadosAsaas(locadorId, subconta);
-      console.log("✅ Dados da subconta salvos com sucesso.");
+  console.log("✅ Subconta no Asaas criada com sucesso. Salvando dados...");
+  await locadorService.salvarDadosAsaas(locadorId, subconta);
+  console.log("✅ Dados da subconta salvos com sucesso.");
 
-      // 🌐 Configurar webhook para a subconta
-      console.log("🔗 Configurando webhook para subconta...");
-      const webhookResponse = await asaasService.configurarWebhookSubconta(
-        subconta.apiKey,
-        `${process.env.API_BASE}/asaas-events`,
-        email
-      );
+  // 🌐 Configurar webhook para a subconta
+  console.log("🔗 Configurando webhook para subconta...");
+  const webhookResponse = await asaasService.configurarWebhookSubconta(
+    subconta.apiKey,
+    `${process.env.API_BASE}/asaas-events`,
+    email
+  );
 
-      if (webhookResponse.ok) {
-        console.log("✅ Webhook configurado com sucesso para a subconta.");
-      } else {
-        console.warn("⚠️ Falha ao configurar webhook:", webhookResponse.error);
-      }
-    }
-
-    console.log("🎉 Processo de registro finalizado com sucesso.");
-    res.status(201).json({
-      locadorId,
-      ...(subconta.ok
-        ? {}
-        : {
-            aviso:
-              "Locador registrado, mas a subconta no Asaas não foi criada.",
-          }),
-    });
-  } catch (err) {
-    console.error("❌ Erro inesperado durante o registro:", err);
-    res.status(500).json({ erro: "Erro no registro do locador." });
+  if (webhookResponse.ok) {
+    console.log("✅ Webhook configurado com sucesso para a subconta.");
+  } else {
+    console.warn("⚠️ Falha ao configurar webhook:", webhookResponse.error);
   }
-};
+
+  console.log("🏦 Criando cliente no Asaas...");
+  const cliente = await asaasService.criarClienteAsaas({
+    nome,
+    dataNascimento,
+    email,
+    cpf_cnpj,
+    telefone,
+    rendaMensal,
+    rua,
+    numeroEndereco,
+    complemento,
+    bairro,
+    cep,
+  });
+
+  if (cliente.ok) {
+    console.log("✅ Cliente no Asaas criado com sucesso. Crie a cobrança com recorrência mensal no valor do plano e ative a assinatura no BD");
+  }
+}
+
+console.log("🎉 Processo de registro finalizado com sucesso.");
+res.status(201).json({
+  locadorId,
+  ...(subconta.ok
+    ? {}
+    : {
+        aviso:
+          "Locador registrado, mas a subconta no Asaas não foi criada.",
+      }),
+});
+
 
 exports.login = async (req, res) => {
   const { cpf_cnpj, senha } = req.body;

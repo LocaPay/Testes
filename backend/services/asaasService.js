@@ -34,7 +34,7 @@ const gerarPagamentoPix = async (customerId, value, dueDate, locador_api_key) =>
 };
 
 
-const criarClienteAsaas = async (clienteData, locador_api_key) => {
+const criarClienteAsaas = async (clienteData) => {
   try {
     const response = await axios.post(
       `${BASE_URL}/customers`,
@@ -42,7 +42,7 @@ const criarClienteAsaas = async (clienteData, locador_api_key) => {
       {
         headers: {
           "Content-Type": "application/json",
-          access_token: locador_api_key,
+          access_token: process.env.ASAAS_API_KEY_PJ,
         },
       }
     );
