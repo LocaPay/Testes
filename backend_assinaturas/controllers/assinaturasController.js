@@ -92,7 +92,7 @@ async function atualizarStatusAssinatura(req, res) {
   let locador;
 
   try {
-    locador = await fetch(`${process.env.API_BASE}/user/buscar-cus-id`, {
+    locador = await fetch(`${process.env.API_BASE}/user/buscar-id-por-cus`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
