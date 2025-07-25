@@ -93,7 +93,7 @@ async function atualizarStatusAssinatura(req, res) {
 
   try {
     locador = await fetch(`${process.env.API_BASE}/user/buscar-cus-id`, {
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },

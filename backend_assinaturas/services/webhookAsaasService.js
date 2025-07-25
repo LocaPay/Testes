@@ -9,7 +9,7 @@ exports.processarEvento = async (data) => {
 
       try {
         const response = await fetch(`${process.env.API_BASE_ASSINATURAS}/assinaturas/status`, {
-          method: "POST",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
