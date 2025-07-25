@@ -32,14 +32,17 @@ exports.criarLocador = async (locador) => {
       locador.complemento || "",
       locador.bairro,
       locador.cep,
-      locador.dataNascimento
+      locador.dataNascimento,
     ]
   );
 
   return result.insertId;
 };
 
-exports.salvarDadosAsaas = async (locadorId, { id, apiKey, status, walletId }) => {
+exports.salvarDadosAsaas = async (
+  locadorId,
+  { id, apiKey, status, walletId }
+) => {
   await db.query(
     `UPDATE locadores
      SET asaas_account_id = ?, asaas_api_key = ?, asaas_status = ?, walletId = ?
@@ -63,6 +66,7 @@ exports.buscarDadosGerais = async (id) => {
       l.telefone,
       l.cpf_cnpj,
       l.data_cadastro,
+      l.customer_id,
       d.banco_codigo,
       d.banco_nome,
       d.agencia,
@@ -380,21 +384,21 @@ exports.atualizarSaldoAtual = async (
 };
 
 exports.buscarInfoSubConta = async (locadorId) => {
-   const query =
+  const query =
     "SELECT asaas_api_key, walletId, asaas_account_id FROM locadores WHERE id = ?";
   try {
     const [rows] = await db.query(query, [locadorId]);
     if (rows.length === 0) return null;
-    console.log(rows)
+    console.log(rows);
     return rows[0];
   } catch (err) {
     console.error("Erro ao buscar informações de subconta:", err);
     console.log("Erro ao buscar informações de subconta");
   }
-}
+};
 
 exports.buscarDadosAssinatura = async (locadorId) => {
-   try {
+  try {
     const response = await fetch(
       `${process.env.API_BASE_ASSINATURAS}/assinaturas/${locadorId}`,
       {
@@ -406,10 +410,7 @@ exports.buscarDadosAssinatura = async (locadorId) => {
     );
 
     if (!response.ok) {
-      console.warn(
-        "Erro na resposta da API de Assinaturas:",
-        response.status
-      );
+      console.warn("Erro na resposta da API de Assinaturas:", response.status);
       return null;
     }
 
@@ -420,6 +421,13 @@ exports.buscarDadosAssinatura = async (locadorId) => {
     console.log(err);
     return null;
   }
-}
+};
 
-
+exports.salvarCustomerId = async (locadorId, customer_id) => {
+  await db.query(
+    `UPDATE locadores
+     SET customer_id = ?
+     WHERE id = ?`,
+    [customer_id, locadorId]
+  );
+};

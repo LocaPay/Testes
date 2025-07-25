@@ -138,6 +138,10 @@ exports.registrar = async (req, res) => {
         cep,
       });
 
+      console.log("Armazenando customer_id...");
+      await locadorService.salvarCustomerId(locadorId, cliente);
+      console.log("✅ Customer_id salvo com sucesso.");
+
       if (cliente.ok) {
         console.log(
           "✅ Cliente no Asaas criado com sucesso. Crie a cobrança com recorrência mensal no valor do plano e ative a assinatura no BD"
