@@ -32,7 +32,6 @@ export const cadastrarLocador = async (dados) => {
 };
 
 export const fazerLogin = async (credenciais) => {
-  console.log(credenciais)
   try {
     const response = await fetch(`${API_BASE}/user/login`, {
       method: "POST",
@@ -48,22 +47,17 @@ export const fazerLogin = async (credenciais) => {
       const assinatura = await buscarDadosAssinatura();
 
       if (assinatura.status === "desativada") {
-        showError(
-          "Sua assinatura ainda não está ativa. Por favor, aguarde o contato da nossa equipe."
-        );
-        return;
+        return { status: "assinatura_desativada" };
       }
-
-      showSuccess("Login realizado com sucesso!");
-      setTimeout(() => {
-        window.location.href = "dashboard.html";
-      }, 1000);
+      return { status: "ok" };
     } else {
-      showError(data.erro || "Credenciais inválidas");
+      return {
+        status: "credenciais_invalidas",
+        erro: data.erro || "Credenciais inválidas",
+      };
     }
   } catch (error) {
-    showError("Erro ao conectar com o servidor");
-    console.error("Erro na requisição:", error);
+    return { status: "erro", erro: "Erro ao conectar com o servidor" };
   }
 };
 

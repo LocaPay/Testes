@@ -1,4 +1,4 @@
-import * as service from './service.js';
+import * as service from "./service.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   // Elementos da página
@@ -251,28 +251,46 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Validação do login
   const loginForm = document.getElementById("login-form");
-  if (loginForm) {
-    loginForm.addEventListener("submit", async function (e) {
-      e.preventDefault();
-      msgDiv.textContent = "";
-      msgDiv.className = "message";
+  loginForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    msgDiv.textContent = "";
+    msgDiv.className = "message";
 
-      const cpf_cnpj = loginForm.cpf_cnpj.value.trim();
-      const senha = loginForm.senha.value;
+    const cpf_cnpj = loginForm.cpf_cnpj.value.trim();
+    const senha = loginForm.senha.value;
 
-      if (!cpf_cnpj || !senha) {
-        showError("Preencha todos os campos.");
-        return;
-      }
+    if (!cpf_cnpj || !senha) {
+      showError("Preencha todos os campos.");
+      return;
+    }
 
-      const credenciais = {
-        cpf_cnpj: cpf_cnpj,
-        senha: senha,
-      };
+    const credenciais = { cpf_cnpj, senha };
 
-      await service.fazerLogin(credenciais);
-    });
-  }
+    const login = await service.fazerLogin(credenciais);
+
+    if (login.status === "assinatura_desativada") {
+      showError(
+        "Sua assinatura ainda não está ativa. Por favor, aguarde o contato da nossa equipe."
+      );
+      return;
+    }
+
+    if (login.status === "credenciais_invalidas") {
+      showError(login.erro);
+      return;
+    }
+
+    if (login.status === "erro") {
+      showError(login.erro);
+      return;
+    }
+
+    // Login ok
+    showSuccess("Login realizado com sucesso!");
+    setTimeout(() => {
+      window.location.href = "dashboard.html";
+    }, 1000);
+  });
 
   // Funções auxiliares
   function showError(message) {
