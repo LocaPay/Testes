@@ -88,22 +88,22 @@ async function atualizarAssinatura(req, res) {
 }
 
 async function atualizarStatusAssinatura(req, res) {
-  const { customer, status } = req.body;
+  const { customer_id, status } = req.body;
   let locador;
 
   try {
     locador = await fetch(`${process.env.API_BASE}/user/buscar-cus-id`, {
-      method: "GET",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ cus_id: customer }),
+      body: JSON.stringify({ cus_id: customer_id }),
     });
   } catch (err) {
     console.error("erro ao buscar id por cus_id: ", err);
     console.log("erro ao buscar id por cus_id: ", err);
   }
-  
+
   try {
     const resultado = await assinaturaService.atualizarStatusAssinatura(
       locador.id,
