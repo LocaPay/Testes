@@ -431,3 +431,17 @@ exports.salvarCustomerId = async (locadorId, customer_id) => {
     [customer_id, locadorId]
   );
 };
+
+exports.buscarIdPorCustomerId = async (customerId) => {
+  const query =
+    "SELECT id FROM locadores WHERE customer_id = ?";
+  try {
+    const [rows] = await db.query(query, [customerId]);
+    if (rows.length === 0) return null;
+    console.log(rows);
+    return rows[0];
+  } catch (err) {
+    console.error("Erro ao buscar id:", err);
+    console.log("Erro ao buscar id");
+  }
+};

@@ -387,3 +387,15 @@ exports.buscarDadosAssinatura = async (req, res) => {
     return res.status(500).json({ erro: "Erro interno do servidor." });
   }
 };
+
+exports.buscarIdPorCustomerId= async (req, res) => {
+  const {cus_id} = req.body;
+
+  const locador = await locadorService.buscarIdPorCustomerId(cus_id);
+  if (!locador)
+    return res
+      .status(400)
+      .json({ erro: "Locador nao encontrado não encontrado" });
+
+  res.json(locador);
+};

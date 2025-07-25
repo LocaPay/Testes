@@ -8,7 +8,8 @@ const router = express.Router();
 router.post('/locadores', locadorCtrl.registrar);
 router.post('/login', locadorCtrl.login);
 router.get('/info', auth, locadorCtrl.buscarDadosGerais);
-router.get('/buscar-info-subconta/:locadorId', locadorCtrl.buscarinfosubConta)
+router.get('/buscar-cus-id', locadorCtrl.buscarIdPorCustomerId);
+router.get('/buscar-info-subconta/:locadorId', locadorCtrl.buscarinfosubConta);
 router.get('/locador/por-inquilino/:inquilino_id', locadorCtrl.buscarLocadorPorInquilino );
 router.get('/buscar-saldo', auth, locadorCtrl.buscarSaldoLocador);
 router.get('/buscar-registro-transacoes', auth, locadorCtrl.buscarRegistroTransacoes);
