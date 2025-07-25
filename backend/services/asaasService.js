@@ -94,7 +94,7 @@ const criarClienteAsaasSubConta = async (inquilino, locador_api_key) => {
 const transferirPix = async ({ valor, chave_pix, tipoChavePix, saque_id }) => {
   try {
     const response = await axios.post(
-      `https://www.asaas.com/api/v3/transfers`,
+      `${BASE_URL_SANDBOX}transfers`,
       {
         value: valor,
         pixAddressKey: chave_pix,
@@ -192,7 +192,7 @@ const configurarWebhookSubconta = async (
   };
 
   try {
-    const response = await fetch("https://www.asaas.com/api/v3/webhook", {
+    const response = await fetch(`${BASE_URL_SANDBOX}webhook`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
