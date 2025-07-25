@@ -53,6 +53,26 @@ export const fazerLogin = async (credenciais) => {
   }
 };
 
+//======================== DADOS DE ASSINATURA ==================
+export const buscarDadosAssinatura = async () => {
+  try {
+    const response = await fetch(`${API_BASE}/user/assinatura`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (err) {
+    console.error("Erro ao buscar dados de assinatura:", err);
+    return [];
+  }
+};
+
 // ======================= LOCADOR =======================
 
 // Buscar dados do locador logado
