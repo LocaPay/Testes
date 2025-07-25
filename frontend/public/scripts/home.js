@@ -1,4 +1,4 @@
-const service = require("./service");
+import * as service from './service.js';
 
 document.addEventListener("DOMContentLoaded", function () {
   // Elementos da página

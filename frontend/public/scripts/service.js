@@ -32,6 +32,7 @@ export const cadastrarLocador = async (dados) => {
 };
 
 export const fazerLogin = async (credenciais) => {
+  console.log(credenciais)
   try {
     const response = await fetch(`${API_BASE}/user/login`, {
       method: "POST",
