@@ -1,6 +1,6 @@
 module.exports = (req, res, next) => {
   const authHeader = req.headers.authorization;
-  const authHeaderAsaas = req.headers.asaas - access - token;
+  const authHeaderAsaas = req.headers["asaas-access-token"];
   const apiKey = process.env.ASSINATURAS_API_KEY;
 
   if (!authHeader || authHeader !== `Bearer ${apiKey}`) {
