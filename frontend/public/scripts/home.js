@@ -1,3 +1,5 @@
+const service = require("./service");
+
 document.addEventListener("DOMContentLoaded", function () {
   // Elementos da página
   const authTabs = document.querySelectorAll(".auth-tab");
@@ -143,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
       msgDiv.className = "message";
 
       const nome = signupForm.nome.value.trim();
-      const dataNascimento = signupForm.dataNascimento.value.trim()
+      const dataNascimento = signupForm.dataNascimento.value.trim();
       const email = signupForm.email.value.trim();
       const senha = signupForm.senha.value;
       const cpf_cnpj = signupForm.cpf_cnpj.value.trim();
@@ -263,31 +265,12 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      try {
-        const response = await fetch(
-          "https://backend-isolado-copy-production.up.railway.app/user/login",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ cpf_cnpj, senha }),
-          }
-        );
+      const credenciais = {
+        cpf_cnpj: cpf_cnpj,
+        senha: senha,
+      };
 
-        const data = await response.json();
-
-        if (response.ok && data.token) {
-          localStorage.setItem("token", data.token);
-          showSuccess("Login realizado com sucesso!");
-          setTimeout(() => {
-            window.location.href = "dashboard.html";
-          }, 1000);
-        } else {
-          showError(data.erro || "Credenciais inválidas");
-        }
-      } catch (error) {
-        showError("Erro ao conectar com o servidor");
-        console.error("Erro na requisição:", error);
-      }
+      await service.fazerLogin(credenciais);
     });
   }
 

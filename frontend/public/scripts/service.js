@@ -31,7 +31,6 @@ export const cadastrarLocador = async (dados) => {
   }
 };
 
-// Fazer login
 export const fazerLogin = async (credenciais) => {
   try {
     const response = await fetch(`${API_BASE}/user/login`, {
@@ -42,14 +41,28 @@ export const fazerLogin = async (credenciais) => {
 
     const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.erro || "Credenciais inválidas");
-    }
+    if (response.ok && data.token) {
+      localStorage.setItem("token", data.token);
 
-    return data;
-  } catch (err) {
-    console.error("Erro ao fazer login:", err);
-    return { erro: err.message };
+      const assinatura = await buscarDadosAssinatura();
+
+      if (assinatura.status === "desativada") {
+        showError(
+          "Sua assinatura ainda não está ativa. Por favor, aguarde o contato da nossa equipe."
+        );
+        return;
+      }
+
+      showSuccess("Login realizado com sucesso!");
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 1000);
+    } else {
+      showError(data.erro || "Credenciais inválidas");
+    }
+  } catch (error) {
+    showError("Erro ao conectar com o servidor");
+    console.error("Erro na requisição:", error);
   }
 };
 
@@ -124,7 +137,7 @@ export const cadastrarChavePix = async (chave, tipo) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${getToken()}`,
       },
-      body: JSON.stringify({ chave_pix: chave, tipo_chave_pix: tipo}),
+      body: JSON.stringify({ chave_pix: chave, tipo_chave_pix: tipo }),
     });
 
     const data = await response.json();
@@ -392,7 +405,10 @@ export const realizarSaque = async (valor, chave_pix) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${getToken()}`,
       },
-      body: JSON.stringify({valor: parseFloat(valor), chave_pix: chave_pix.trim()})
+      body: JSON.stringify({
+        valor: parseFloat(valor),
+        chave_pix: chave_pix.trim(),
+      }),
     });
 
     if (!response.ok) {
