@@ -8,7 +8,7 @@ exports.processarEvento = async (data) => {
       console.log("Assinatura criada:", subscription);
 
       try {
-        const response = await fetch(`${process.env.API_BASE_ASSINATURAS}/asaas_events`, {
+        const response = await fetch(`${process.env.API_BASE_ASSINATURAS}/assinaturas/status`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
