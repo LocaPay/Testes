@@ -5,6 +5,6 @@ const webhookCtrl = require('../controllers/webhookAsaasController')
 const router = express.Router();
 
 // Dados bancários (autenticado)
-router.post('/', auth, webhookCtrl.receberEvento);
+router.post('/', webhookCtrl.receberEvento);
 
 module.exports = router;
