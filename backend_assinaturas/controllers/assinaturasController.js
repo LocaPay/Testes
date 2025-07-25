@@ -1,3 +1,4 @@
+const { json } = require("express");
 const assinaturaService = require("../services/assinaturasService");
 
 async function buscarAssinatura(req, res) {
@@ -87,12 +88,25 @@ async function atualizarAssinatura(req, res) {
 }
 
 async function atualizarStatusAssinatura(req, res) {
-  const { locador_id } = req.params;
-  const { status } = req.body;
+  const { customer, status } = req.body;
+  let locador;
 
   try {
+    locador = await fetch(`${process.env.API_BASE}/user/buscar-cus-id`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ cus_id: customer }),
+    });
+  } catch (err) {
+    console.error("erro ao buscar id por cus_id: ", err);
+    console.log("erro ao buscar id por cus_id: ", err);
+  }
+  
+  try {
     const resultado = await assinaturaService.atualizarStatusAssinatura(
-      locador_id,
+      locador.id,
       status
     );
 

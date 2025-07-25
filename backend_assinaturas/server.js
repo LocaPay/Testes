@@ -7,6 +7,7 @@ const dadosBancariosRoutes = require('./routes/dadosBancariosRoutes')
 const transacoes_saldosRoutes = require('./routes/transacoes_saldo')
 const saldos_locadores = require('./routes/saldos_locadoresRoutes')
 const saquesRoute = require('./routes/saquesRoutes')
+const webhookRoutes = require('./routes/webhoosAsaasRoutes')
 
 
 app.use(
@@ -34,7 +35,8 @@ app.use('/assinaturas', assinaturaRoutes);
 app.use('/bk-data', dadosBancariosRoutes)
 app.use('/saldos_locadores', saldos_locadores)
 app.use('/transacoes_saldo', transacoes_saldosRoutes);
-app.use('/saques', saquesRoute)
+app.use('/saques', saquesRoute);
+app.use('/asaas_events', webhookRoutes);
 
 
 app.listen(PORT, () => {
