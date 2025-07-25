@@ -92,16 +92,21 @@ async function atualizarStatusAssinatura(req, res) {
   let locador;
 
   try {
-    locador = await fetch(`${process.env.API_BASE}/user/buscar-id-por-cus`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ cus_id: customer_id }),
-    });
+    const response = await fetch(
+      `${process.env.API_BASE}/user/buscar-id-por-cus`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ cus_id: customer_id }),
+      }
+    );
+
+    const data = await response.json();
+    locador = data; 
   } catch (err) {
     console.error("erro ao buscar id por cus_id: ", err);
-    console.log("erro ao buscar id por cus_id: ", err);
   }
 
   try {
