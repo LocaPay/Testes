@@ -7,7 +7,7 @@ const dadosBancariosRoutes = require('./routes/dadosBancariosRoutes')
 const transacoes_saldosRoutes = require('./routes/transacoes_saldo')
 const saldos_locadores = require('./routes/saldos_locadoresRoutes')
 const saquesRoute = require('./routes/saquesRoutes')
-const webhookRoutes = require('./routes/webhoosAsaasRoutes')
+const webhookRoutes = require('./routes/webhookAsaasRoutes')
 
 
 app.use(
