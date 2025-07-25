@@ -13,8 +13,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://locapay-production.up.railway.app",
-      "https://backend-isolado-production.up.railway.app"
+      "https://locapay-copy-production.up.railway.app",
+      "https://backend-isolado-copy-production.up.railway.app"
     ],
     methods: ["GET", "POST", "PUT"],
     credentials: true,
