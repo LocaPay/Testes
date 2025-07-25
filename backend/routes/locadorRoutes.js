@@ -12,6 +12,7 @@ router.get('/buscar-info-subconta/:locadorId', locadorCtrl.buscarinfosubConta)
 router.get('/locador/por-inquilino/:inquilino_id', locadorCtrl.buscarLocadorPorInquilino );
 router.get('/buscar-saldo', auth, locadorCtrl.buscarSaldoLocador);
 router.get('/buscar-registro-transacoes', auth, locadorCtrl.buscarRegistroTransacoes);
+router.get('/assinatura', auth, locadorCtrl.buscarDadosAssinatura)
 router.get('/buscar-registro-saques', auth, locadorCtrl.buscarRegistroSaques);
 router.post('/realizar-saque', auth, locadorCtrl.realizarSaque)
 

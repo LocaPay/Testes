@@ -365,3 +365,21 @@ exports.buscarinfosubConta = async (req, res) => {
     return res.status(500).json({ erro: "Erro interno do servidor." });
   }
 };
+
+
+exports.buscarDadosAssinatura = async (req, res) => {
+  const locadorId = req.userId;
+
+  try {
+    const data = await locadorService.buscarDadosAssinatura(locadorId);
+
+    if (!data) {
+      return res.status(404).json({ erro: "Erro ao buscar dados de assinatura" });
+    }
+
+    return res.json(data);
+  } catch (error) {
+    console.error("Erro ao buscar dados de assinatura:", error);
+    return res.status(500).json({ erro: "Erro interno do servidor." });
+  }
+};

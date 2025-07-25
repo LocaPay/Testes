@@ -392,3 +392,34 @@ exports.buscarInfoSubConta = async (locadorId) => {
     console.log("Erro ao buscar informações de subconta");
   }
 }
+
+exports.buscarDadosAssinatura = async (locadorId) => {
+   try {
+    const response = await fetch(
+      `${process.env.API_BASE_ASSINATURAS}/assinaturas/${locadorId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${process.env.ASSINATURAS_API_KEY}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      console.warn(
+        "Erro na resposta da API de Assinaturas:",
+        response.status
+      );
+      return null;
+    }
+
+    const result = await response.json();
+    return result.assinatura;
+  } catch (err) {
+    console.error("Erro ao buscar dados da assinatura do locador:");
+    console.log(err);
+    return null;
+  }
+}
+
+
