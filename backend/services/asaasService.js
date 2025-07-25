@@ -57,7 +57,7 @@ const criarClienteAsaas = async (locador) => {
     const response = await axios.post(`${BASE_URL}/customers`, payload, {
       headers: {
         "Content-Type": "application/json",
-        access_token: process.env.ASAAS_API_KEY_PJ,
+        access_token: process.env.ASAAS_API_KEY_PJ_SANDBOX,
       },
     });
 
@@ -104,7 +104,7 @@ const transferirPix = async ({ valor, chave_pix, tipoChavePix, saque_id }) => {
       {
         headers: {
           "Content-Type": "application/json",
-          access_token: process.env.ASAAS_API_KEY_PJ,
+          access_token: process.env.ASAAS_API_KEY_PJ_SANDBOX,
         },
       }
     );
@@ -143,7 +143,7 @@ const criarSubconta = async (locador) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        access_token: `${process.env.ASAAS_API_KEY_PJ}`,
+        access_token: `${process.env.ASAAS_API_KEY_PJ_SANDBOX}`,
       },
       body: JSON.stringify(payload),
     });
