@@ -12,7 +12,7 @@ const gerarPagamentoPix = async (
 ) => {
   try {
     const response = await axios.post(
-      `${BASE_URL}/payments`,
+      `${BASE_URL_SANDBOX}/payments`,
       {
         customer: customerId,
         billingType: "PIX",
@@ -54,7 +54,7 @@ const criarClienteAsaas = async (locador) => {
     state: locador.estado,
   };
   try {
-    const response = await axios.post(`${BASE_URL}/customers`, payload, {
+    const response = await axios.post(`${BASE_URL_SANDBOX}/customers`, payload, {
       headers: {
         "Content-Type": "application/json",
         access_token: process.env.ASAAS_API_KEY_PJ_SANDBOX,
@@ -77,7 +77,7 @@ const criarClienteAsaasSubConta = async (inquilino, locador_api_key) => {
   };
   console.log(payload)
   try {
-    const response = await axios.post(`${BASE_URL}/customers`, payload, {
+    const response = await axios.post(`${BASE_URL_SANDBOX}/customers`, payload, {
       headers: {
         "Content-Type": "application/json",
         access_token: locador_api_key,
@@ -139,7 +139,7 @@ const criarSubconta = async (locador) => {
   };
 
   try {
-    const response = await fetch(`${BASE_URL}/accounts`, {
+    const response = await fetch(`${BASE_URL_SANDBOX}/accounts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
