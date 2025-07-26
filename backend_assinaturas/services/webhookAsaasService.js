@@ -1,8 +1,6 @@
 exports.processarEvento = async (data) => {
   const { event, subscription, payment } = data;
 
-  console.log("Evento recebido:", event);
-
   switch (event) {
     case "SUBSCRIPTION_CREATED":
       console.log("Assinatura criada:", subscription);

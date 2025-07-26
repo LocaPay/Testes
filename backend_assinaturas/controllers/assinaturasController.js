@@ -88,7 +88,8 @@ async function atualizarAssinatura(req, res) {
 }
 
 async function atualizarStatusAssinatura(req, res) {
-  const { customer_id, status } = req.body;
+  const customer_id = req.body.customer_id;
+  const status = req.body.status;
   let locador;
 
   try {
@@ -104,14 +105,19 @@ async function atualizarStatusAssinatura(req, res) {
     );
 
     const data = await response.json();
-    locador = data; 
+    locador = data;
   } catch (err) {
     console.error("erro ao buscar id por cus_id: ", err);
   }
+  console.log("Atualizando assinatura controler:", {
+    customer_id,
+    status,
+    locador
+  });
 
   try {
     const resultado = await assinaturaService.atualizarStatusAssinatura(
-      locador.id,
+      locador,
       status
     );
 

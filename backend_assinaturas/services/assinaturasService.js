@@ -30,10 +30,7 @@ async function adicionarAssinatura(locador_id, plano_id) {
   `;
 
   try {
-    const [result] = await db.query(query, [
-      locador_id,
-      plano_id,
-    ]);
+    const [result] = await db.query(query, [locador_id, plano_id]);
 
     return {
       sucesso: true,
@@ -46,8 +43,8 @@ async function adicionarAssinatura(locador_id, plano_id) {
   }
 }
 
-async function atualizarDatasInicioFim(locador_id, data_inicio, data_fim){
-   const query = `
+async function atualizarDatasInicioFim(locador_id, data_inicio, data_fim) {
+  const query = `
     UPDATE assinaturas SET data_inicio = ? and SET data_fim = ? WHERE locador_id = ?
   `;
 
@@ -61,7 +58,10 @@ async function atualizarDatasInicioFim(locador_id, data_inicio, data_fim){
       };
     }
 
-    return { sucesso: true, mensagem: "Datas de assinatura atualizadas com sucesso" };
+    return {
+      sucesso: true,
+      mensagem: "Datas de assinatura atualizadas com sucesso",
+    };
   } catch (error) {
     console.error("Erro ao atualizar datas da assinatura:", error);
     throw new Error("Erro ao atualizar datas da assinatura");
@@ -91,6 +91,11 @@ async function atualizarAssinatura(locador_id, novoPlano_id) {
 }
 
 async function atualizarStatusAssinatura(locador_id, status) {
+  console.log("Atualizando assinatura:", {
+    status,
+    locador_id,
+  });
+
   const query = `
     UPDATE assinaturas SET status = ? WHERE locador_id = ?
   `;
