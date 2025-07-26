@@ -91,10 +91,8 @@ async function atualizarAssinatura(locador_id, novoPlano_id) {
 }
 
 async function atualizarStatusAssinatura(locador_id, status) {
-  console.log("Atualizando assinatura:", {
-    status,
-    locador_id,
-  });
+  console.log("🛠️ Iniciando atualização de assinatura:");
+  console.log("➡️ Dados recebidos:", { locador_id, status });
 
   const query = `
     UPDATE assinaturas SET status = ? WHERE locador_id = ?
@@ -103,16 +101,22 @@ async function atualizarStatusAssinatura(locador_id, status) {
   try {
     const [result] = await db.query(query, [status, locador_id]);
 
+    console.log("📦 Resultado da query:", result);
+
     if (result.affectedRows === 0) {
+      console.warn(
+        "⚠️ Nenhuma linha afetada: assinatura pode não existir ou status já estava igual."
+      );
       return {
         sucesso: false,
         mensagem: "Assinatura não encontrada ou status já era o mesmo",
       };
     }
 
+    console.log("✅ Status da assinatura atualizado com sucesso.");
     return { sucesso: true, mensagem: "Status atualizado com sucesso" };
   } catch (error) {
-    console.error("Erro ao atualizar status da assinatura:", error);
+    console.error("❌ Erro ao atualizar status da assinatura no banco:", error);
     throw new Error("Erro ao atualizar status da assinatura");
   }
 }

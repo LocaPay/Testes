@@ -88,9 +88,13 @@ async function atualizarAssinatura(req, res) {
 }
 
 async function atualizarStatusAssinatura(req, res) {
-  const customer_id = req.body.customer_id;
-  const status = req.body.status;
+  const { customer_id, status } = req.body;
   let locador;
+
+  console.log("📥 Requisição recebida para atualizar status da assinatura:", {
+    customer_id,
+    status,
+  });
 
   try {
     const response = await fetch(
@@ -105,26 +109,40 @@ async function atualizarStatusAssinatura(req, res) {
     );
 
     const data = await response.json();
-    locador = data;
+    console.log("🔍 Resposta da API buscar-id-por-cus:", data);
+
+    if (!data?.id) {
+      console.error("❌ ID do locador não encontrado:", data);
+      return res
+        .status(400)
+        .json({
+          sucesso: false,
+          mensagem: "Locador não encontrado com o customer_id fornecido.",
+        });
+    }
+
+    locador = data.id;
   } catch (err) {
-    console.error("erro ao buscar id por cus_id: ", err);
+    console.error("❌ Erro ao buscar id por cus_id:", err);
+    return res
+      .status(500)
+      .json({
+        sucesso: false,
+        mensagem: "Erro ao buscar locador com customer_id",
+      });
   }
-  console.log("Atualizando assinatura controler:", {
-    customer_id,
-    status,
-    locador
-  });
+
+  console.log("📦 Enviando para service:", { locador_id: locador, status });
 
   try {
     const resultado = await assinaturaService.atualizarStatusAssinatura(
       locador,
       status
     );
-
     return res.status(200).json(resultado);
   } catch (error) {
     console.error(
-      "Erro no controller atualizarStatusAssinatura:",
+      "❌ Erro no controller atualizarStatusAssinatura:",
       error.message
     );
     return res.status(500).json({
