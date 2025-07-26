@@ -6,7 +6,7 @@ exports.processarEvento = async (data) => {
       console.log("Assinatura criada:", subscription);
 
       try {
-        const response = await fetch(`${process.env.API_BASE_ASSINATURAS}/assinaturas/status`, {
+        const response = await fetch(`${process.env.API_BASE_ASSINATURAS_TESTE}/assinaturas/status`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
