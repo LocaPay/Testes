@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const assinaturaController = require("../controllers/assinaturasController");
-const auth = require('../middlewares/authMiddleware');
+const auth = require("../middlewares/authMiddleware");
 
 // Buscar assinatura de um locador
 router.get("/:locador_id", assinaturaController.buscarAssinatura);
@@ -9,12 +9,14 @@ router.get("/:locador_id", assinaturaController.buscarAssinatura);
 // Adicionar nova assinatura
 router.post("/", auth, assinaturaController.adicionarAssinatura);
 
-router.put("/atualizar-datas/:locador_id", assinaturaController.atualizarDatasInicioFim)
+router.put(
+  "/atualizar-datas/:locador_id",
+  assinaturaController.atualizarDatasInicioFim
+);
+// Atualizar status (ativa/desativada)
+router.put("/status", assinaturaController.atualizarStatusAssinatura);
 
 // Atualizar plano da assinatura
 router.put("/:locador_id", assinaturaController.atualizarAssinatura);
-
-// Atualizar status (ativa/desativada)
-router.put("/status", assinaturaController.atualizarStatusAssinatura);
 
 module.exports = router;
