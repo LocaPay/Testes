@@ -15,6 +15,6 @@ router.put("/atualizar-datas/:locador_id", assinaturaController.atualizarDatasIn
 router.put("/:locador_id", assinaturaController.atualizarAssinatura);
 
 // Atualizar status (ativa/desativada)
-router.put("/status/", assinaturaController.atualizarStatusAssinatura);
+router.put("/status", assinaturaController.atualizarStatusAssinatura);
 
 module.exports = router;

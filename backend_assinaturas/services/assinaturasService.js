@@ -90,7 +90,7 @@ async function atualizarAssinatura(locador_id, novoPlano_id) {
   }
 }
 
-async function atualizarStatusAssinatura(locador_id, status) {
+async function bla(locador_id, status) {
   console.log("🛠️ Iniciando atualização de assinatura:");
   console.log("➡️ Dados recebidos:", { locador_id, status });
 
@@ -126,5 +126,5 @@ module.exports = {
   adicionarAssinatura,
   atualizarDatasInicioFim,
   atualizarAssinatura,
-  atualizarStatusAssinatura,
+  bla,
 };

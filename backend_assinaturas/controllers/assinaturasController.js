@@ -98,7 +98,7 @@ async function atualizarStatusAssinatura(req, res) {
 
   try {
     const response = await fetch(
-      `${process.env.API_BASE}/user/buscar-id-por-cus`,
+      `${process.env.API_BASE_TESTE}/user/buscar-id-por-cus`,
       {
         method: "POST",
         headers: {
@@ -135,7 +135,7 @@ async function atualizarStatusAssinatura(req, res) {
   console.log("📦 Enviando para service:", { locador_id: locador, status });
 
   try {
-    const resultado = await assinaturaService.atualizarStatusAssinatura(
+    const resultado = await assinaturaService.bla(
       locador,
       status
     );
